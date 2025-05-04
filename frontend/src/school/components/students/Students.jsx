@@ -16,9 +16,6 @@ import {
   IconButton,
   Divider,
   Tooltip,
-  Card,
-  CardContent,
-  CardActions,
   CircularProgress
 } from "@mui/material";
 import { useFormik } from "formik";
@@ -26,6 +23,7 @@ import axios from "axios";
 import { baseUrl } from "../../../environment";
 import CustomizedSnackbars from "../../../basic utility components/CustomizedSnackbars";
 import { studentSchema } from "../../../yupSchema/studentSchema";
+import StudentCardAdmin from "../../utility components/student card/StudentCard";
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,
@@ -49,7 +47,7 @@ export default function Students() {
   const [type, setType] = useState("success");
   const [loading, setLoading] = useState(false);
 
-  // Image handling
+  // Handle image file selection
   const addImage = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
@@ -97,7 +95,7 @@ export default function Students() {
         guardian_phone: data.guardian_phone,
         password: data.password,
       });
-      setImageUrl(data.image ? `${baseUrl}/${data.image}` : null);      
+      setImageUrl(data.image ? `${baseUrl}/${data.image}` : null);
       setEditId(data._id);
       setEdit(true);
     } catch (e) {
@@ -128,80 +126,80 @@ export default function Students() {
     password: "",
   };
 
-   const Formik = useFormik({
-      initialValues,
-      validationSchema: studentSchema,
-      onSubmit: async (values) => {
-        try {
-          setLoading(true);
-          const fd = new FormData();
-          Object.keys(values).forEach(key => {
-            if (values[key]) fd.append(key, values[key]);
-          });
-          
+  const Formik = useFormik({
+    initialValues,
+    validationSchema: studentSchema,
+    onSubmit: async (values) => {
+      try {
+        setLoading(true);
+        const fd = new FormData();
+        Object.keys(values).forEach(key => {
+          if (values[key]) fd.append(key, values[key]);
+        });
+        
+        if (file) {
+          fd.append("image", file, file.name);
+        }
+  
+        if (isEdit) {
+          const resp = await axios.patch(`${baseUrl}/student/update/${editId}`, fd);
+          setMessage(resp.data.message);
+          setType("success");
+          handleClearFile();
+          cancelEdit();
+        } else {
           if (file) {
-            fd.append("image", file, file.name);
-          }
-    
-          if (isEdit) {
-            const resp = await axios.patch(`${baseUrl}/student/update/${editId}`, fd);
+            const resp = await axios.post(`${baseUrl}/student/register`, fd);
             setMessage(resp.data.message);
             setType("success");
+            // Force refresh of student list
+            fetchStudents();
+            Formik.resetForm();
             handleClearFile();
-            cancelEdit();
           } else {
-            if (file) {
-              const resp = await axios.post(`${baseUrl}/student/register`, fd);
-              setMessage(resp.data.message);
-              setType("success");
-              // Force refresh of student list
-              fetchStudents();
-              Formik.resetForm();
-              handleClearFile();
-            } else {
-              setMessage("Please provide an image.");
-              setType("error");
-            }
+            setMessage("Please provide an image.");
+            setType("error");
           }
-        } catch (e) {
-          setMessage(e.response?.data?.message || "An error occurred");
-          setType("error");
-        } finally {
-          setLoading(false);
         }
-      },
-    });
-  
-    const fetchStudentClass = async () => {
-      try {
-        const resp = await axios.get(`${baseUrl}/class/fetch-all`);
-        setStudentClass(resp.data.data);
       } catch (e) {
-        console.log("Error in fetching student Class", e);
+        setMessage(e.response?.data?.message || "An error occurred");
+        setType("error");
+      } finally {
+        setLoading(false);
       }
-    };
-  
-    const fetchStudents = async () => {
-      try {
-        const resp = await axios.get(`${baseUrl}/student/fetch-with-query`, { params });
-        setStudents(resp.data.data);
-      } catch (e) {
-        console.log("Error in fetching students data", e);
-      }
-    };
-  
-    useEffect(() => {
-      fetchStudents();
-      fetchStudentClass();
-    }, [message, params]);
-  
-    // File input handling
-    const fileInputRef = useRef(null);
-    const handleClearFile = () => {
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      setFile(null);
-      setImageUrl(null);
-    };
+    },
+  });
+
+  const fetchStudentClass = async () => {
+    try {
+      const resp = await axios.get(`${baseUrl}/class/fetch-all`);
+      setStudentClass(resp.data.data);
+    } catch (e) {
+      console.log("Error in fetching student Class", e);
+    }
+  };
+
+  const fetchStudents = async () => {
+    try {
+      const resp = await axios.get(`${baseUrl}/student/fetch-with-query`, { params });
+      setStudents(resp.data.data);
+    } catch (e) {
+      console.log("Error in fetching students data", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchStudents();
+    fetchStudentClass();
+  }, [message, params]);
+
+  // File input handling
+  const fileInputRef = useRef(null);
+  const handleClearFile = () => {
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    setFile(null);
+    setImageUrl(null);
+  };
 
   return (
     <>
@@ -601,142 +599,127 @@ export default function Students() {
         </Paper>
 
         {/* Students List */}
-        <Typography variant="h5" sx={{ 
-          fontWeight: 600,
-          mb: 3,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1
-        }}>
-          <SchoolIcon color="primary" /> Student Directory
-        </Typography>
+        {/* Students List */}
+<Typography variant="h5" sx={{ 
+  fontWeight: 600,
+  mb: 3,
+  display: 'flex',
+  alignItems: 'center',
+  gap: 1,
+  position: 'relative',
+  '&:after': {
+    content: '""',
+    position: 'absolute',
+    bottom: -8,
+    left: 0,
+    width: '60px',
+    height: '4px',
+    background: 'linear-gradient(90deg, #1976d2, #4dabf5)',
+    borderRadius: '2px'
+  }
+}}>
+  <SchoolIcon color="primary" sx={{ 
+    fontSize: '1.8rem',
+    backgroundColor: 'rgba(25, 118, 210, 0.1)',
+    p: 1,
+    borderRadius: '50%'
+  }} /> 
+  Student Directory
+</Typography>
 
-        {loading && students.length === 0 ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
-            <CircularProgress />
-          </Box>
-        ) : students.length === 0 ? (
-          <Paper sx={{ 
-            p: 4,
-            textAlign: 'center',
-            borderRadius: 2,
-            backgroundColor: 'action.hover'
-          }}>
-            <Typography variant="h6" color="text.secondary">
-              No students found. Register your first student above.
-            </Typography>
-          </Paper>
-        ) : (
-          <Grid container spacing={3}>
-            {students.map((student) => (
-              <Grid item xs={12} sm={6} md={4} key={student._id}>
-                <Card sx={{ 
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  borderRadius: 2,
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-5px)',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.15)'
-                  }
-                }}>
-                  <Box sx={{ 
-                    position: 'relative',
-                    height: 180,
-                    overflow: 'hidden'
-                  }}>
-                 <CardMedia
-     component="img"
-     image={imageUrl}
-  alt={student.name}
-  sx={{
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
-  }}
- 
-/>
-                    <Box sx={{
-                      position: 'absolute',
-                      top: 10,
-                      right: 10,
-                      display: 'flex',
-                      gap: 1
-                    }}>
-                      <Tooltip title="Edit">
-                        <IconButton
-                          onClick={() => handleEdit(student._id)}
-                          sx={{
-                            backgroundColor: 'primary.light',
-                            '&:hover': {
-                              backgroundColor: 'primary.main',
-                              color: 'white'
-                            }
-                          }}
-                        >
-                          <EditIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Delete">
-                        <IconButton
-                          onClick={() => handleDelete(student._id)}
-                          sx={{
-                            backgroundColor: 'error.light',
-                            '&:hover': {
-                              backgroundColor: 'error.main',
-                              color: 'white'
-                            }
-                          }}
-                        >
-                          <DeleteIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h6" component="div">
-                      {student.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      {student.email}
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                      <SchoolIcon color="action" fontSize="small" />
-                      <Typography variant="body2">
-                        Class: {student.student_class?.class_section || 'N/A'}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <PersonIcon color="action" fontSize="small" />
-                      <Typography variant="body2">
-                        Guardian: {student.guardian}
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                  <CardActions sx={{ 
-                    justifyContent: 'space-between',
-                    p: 2,
-                    borderTop: '1px solid',
-                    borderColor: 'divider'
-                  }}>
-                    <Chip 
-                      label={student.gender || 'N/A'}
-                      color={student.gender === 'female' ? 'secondary' : 'primary'}
-                      size="small"
-                      variant="outlined"
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                      Age: {student.age}
-                    </Typography>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        )}
-      </Box>
+{loading && students.length === 0 ? (
+  <Box sx={{ 
+    display: 'flex', 
+    justifyContent: 'center', 
+    p: 4,
+    minHeight: '200px',
+    alignItems: 'center'
+  }}>
+    <CircularProgress size={60} thickness={4} sx={{ color: 'primary.main' }} />
+  </Box>
+) : students.length === 0 ? (
+  <Paper sx={{ 
+    p: 6,
+    textAlign: 'center',
+    borderRadius: 3,
+    background: 'linear-gradient(135deg, rgba(241,245,249,0.8), rgba(255,255,255,1))',
+    boxShadow: '0 8px 32px rgba(31, 38, 135, 0.05)',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+    backdropFilter: 'blur(4px)',
+    position: 'relative',
+    overflow: 'hidden',
+    '&:before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: '4px',
+      background: 'linear-gradient(90deg, #1976d2, #4dabf5)'
+    }
+  }}>
+    <Box sx={{
+      display: 'inline-flex',
+      p: 2,
+      mb: 3,
+      borderRadius: '50%',
+      backgroundColor: 'rgba(25, 118, 210, 0.1)'
+    }}>
+      <SchoolIcon color="primary" sx={{ fontSize: '2.5rem' }} />
+    </Box>
+    <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+      No students found
+    </Typography>
+    <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+      Register your first student above to get started
+    </Typography>
+    <Button 
+      variant="contained" 
+      color="primary" 
+      startIcon={<PersonIcon />}
+      sx={{
+        borderRadius: 2,
+        px: 3,
+        py: 1,
+        textTransform: 'none',
+        boxShadow: '0 4px 14px rgba(25, 118, 210, 0.3)',
+        '&:hover': {
+          boxShadow: '0 6px 18px rgba(25, 118, 210, 0.4)'
+        }
+      }}
+      onClick={() => window.scrollTo(0, 0)}
+    >
+      Add New Student
+    </Button>
+  </Paper>
+) : (
+  <Grid container spacing={3}>
+    {students.map((student) => (
+      <Grid item xs={12} sm={6} md={4} lg={3} key={student._id}>
+        <Paper sx={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          borderRadius: 3,
+          overflow: 'hidden',
+          transition: 'all 0.3s ease',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          '&:hover': {
+            transform: 'translateY(-5px)',
+            boxShadow: '0 8px 30px rgba(25, 118, 210, 0.2)',
+            borderTop: '3px solid #1976d2'
+          }
+        }}>
+          <StudentCardAdmin
+            student={student}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+          />
+        </Paper>
+      </Grid>
+    ))}
+  </Grid>
+)}      </Box>
     </>
   );
 }
