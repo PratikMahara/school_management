@@ -96,7 +96,7 @@ const dateConvert = (date)=>{
 
         {/* Attendance List */}
         <Box flex={1}>
-          <Typography variant="h6">Attendance Records</Typography>
+          <Typography varian2t="h6">Attendance Records</Typography>
           <Table>
             <TableHead>
               <TableRow>

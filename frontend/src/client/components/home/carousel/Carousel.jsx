@@ -1,7 +1,7 @@
 // Carousel.js
 import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Autoplay } from 'swiper/modules'; // Add Autoplay
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Typography, Box, Button } from '@mui/material';
@@ -10,17 +10,17 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const carouselItems = [
   {
-    image: 'https://cdn.pixabay.com/photo/2020/12/10/20/40/color-5821297_1280.jpg',
+    image: 'photo1.jpg',
     title: 'Explore Our Classrooms',
     description: 'Engaging and inspiring environments for every student.',
   },
   {
-    image: 'https://cdn.pixabay.com/photo/2017/10/10/00/03/child-2835430_1280.jpg',
+    image: 'photo2.jpg',
     title: 'Empowering Students',
     description: 'We believe in fostering the potential of each child.',
   },
   {
-    image: 'https://cdn.pixabay.com/photo/2019/09/03/01/51/child-4448370_1280.jpg',
+    image: 'photo3.jpg',
     title: 'Learning Tools',
     description: 'Providing the right tools for effective learning.',
   },
@@ -44,10 +44,11 @@ const Carousel = () => {
   return (
     <Box sx={{ position: 'relative', width: '100%' }}>
       <Swiper
-        modules={[Navigation]}
+        modules={[Navigation, Autoplay]} // Add Autoplay module
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         slidesPerView={1}
         loop={true}
+        autoplay={{ delay: 2000, disableOnInteraction: false }} // Auto slide every 3.5s
       >
         {carouselItems.map((item, index) => (
           <SwiperSlide key={index}>
