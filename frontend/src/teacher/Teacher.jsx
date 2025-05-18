@@ -153,90 +153,149 @@ export default function Teacher() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar  position="fixed" open={open}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={[
-                            {
-                                marginRight: 5,
-                            },
-                            open && { display: 'none' },
-                        ]}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        School Management System
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer variant="permanent" open={open}>
-                <DrawerHeader >
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider />
-                <List sx={{height:"100%"}}>
-                    {navArr && navArr.map((navItem, index) => (
-                        <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton
-                                sx={[
-                                    {
-                                        minHeight: 48,
-                                        px: 2.5,
-                                    },
-                                    open
-                                        ? {
-                                            justifyContent: 'initial',
-                                        }
-                                        : {
-                                            justifyContent: 'center',
-                                        },
-                                ]}
-
-                                onClick={() => { handleNavigation(navItem.link) }}
-                            >
-                                <ListItemIcon
-                                    sx={[
-                                        {
-                                            minWidth: 0,
-                                            justifyContent: 'center',
-                                        },
-                                        open
-                                            ? {
-                                                mr: 3,
-                                            }
-                                            : {
-                                                mr: 'auto',
-                                            },
-                                    ]}
-                                >
-                                    <navItem.icon />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={navItem.component}
-                                    sx={[
-                                        open
-                                            ? {
-                                                opacity: 1,
-                                            }
-                                            : {
-                                                opacity: 0,
-                                            },
-                                    ]}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-
-            </Drawer>
+            <AppBar
+  position="fixed"
+  open={open}
+  sx={{
+    background: 'linear-gradient(90deg, #1e3c72 0%, #2a5298 100%)',
+    boxShadow: '0 2px 12px rgba(30,60,114,0.12)',
+    color: '#fff',
+    transition: 'background 0.5s',
+  }}
+>
+  <Toolbar>
+    <IconButton
+      color="inherit"
+      aria-label="open drawer"
+      onClick={handleDrawerOpen}
+      edge="start"
+      sx={[
+        {
+          marginRight: 5,
+          background: 'rgba(255,255,255,0.08)',
+          borderRadius: 2,
+          transition: 'background 0.3s',
+          '&:hover': {
+            background: 'linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%)',
+          }
+        },
+        open && { display: 'none' },
+      ]}
+    >
+      <MenuIcon />
+    </IconButton>
+    <Typography
+      variant="h6"
+      noWrap
+      component="div"
+      sx={{
+        fontWeight: 700,
+        letterSpacing: '0.03em',
+        color: '#fff',
+        textShadow: '0 2px 8px #2a5298'
+      }}
+    >
+      School Management System
+    </Typography>
+  </Toolbar>
+</AppBar>
+            <Drawer
+  variant="permanent"
+  open={open}
+  sx={{
+    '& .MuiDrawer-paper': {
+      background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+      color: '#fff',
+      borderRight: 'none',
+      boxShadow: '4px 0 24px rgba(30,60,114,0.16)',
+      transition: 'background 0.5s',
+      borderTopRightRadius: 24,
+      borderBottomRightRadius: 24,
+    }
+  }}
+>
+  <DrawerHeader>
+    <IconButton sx={{ color: '#fff' }} onClick={handleDrawerClose}>
+      {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+    </IconButton>
+  </DrawerHeader>
+  <Divider sx={{ background: 'rgba(255,255,255,0.15)' }} />
+  <List sx={{
+    height: "100%",
+    py: 2,
+    '& .MuiListItemButton-root': {
+      borderRadius: 2,
+      mx: 1,
+      my: 0.5,
+      transition: 'background 0.3s, box-shadow 0.3s',
+      '&:hover': {
+        background: 'linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%)',
+        boxShadow: '0 4px 16px rgba(106,130,251,0.15)',
+        color: '#fff',
+        '& .MuiListItemIcon-root': {
+          color: '#fff',
+          textShadow: '0 2px 8px #6a82fb',
+        }
+      }
+    }
+  }}>
+    {navArr && navArr.map((navItem, index) => (
+      <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+        <ListItemButton
+          sx={[
+            {
+              minHeight: 48,
+              px: 2.5,
+              borderRadius: 2,
+              mb: 1,
+              background: open ? 'rgba(255,255,255,0.08)' : 'none',
+              transition: 'background 0.3s, color 0.3s',
+              '&:active': {
+                background: 'linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%)',
+              }
+            },
+            open
+              ? { justifyContent: 'initial' }
+              : { justifyContent: 'center' },
+          ]}
+          onClick={() => { handleNavigation(navItem.link) }}
+        >
+          <ListItemIcon
+            sx={[
+              {
+                minWidth: 0,
+                justifyContent: 'center',
+                color: '#b2c2f0',
+                fontSize: 28,
+                transition: 'color 0.3s, text-shadow 0.3s',
+              },
+              open
+                ? { mr: 3 }
+                : { mr: 'auto' },
+            ]}
+          >
+            <navItem.icon />
+          </ListItemIcon>
+          <ListItemText
+            primary={navItem.component}
+            sx={[
+              {
+                opacity: open ? 1 : 0,
+                color: '#fff',
+                fontWeight: 500,
+                textShadow: '0 1px 4px #2a5298',
+                letterSpacing: '0.04em',
+                fontSize: '1.05rem',
+                transition: 'opacity 0.3s, color 0.3s',
+              }
+            ]}
+          />
+        </ListItemButton>
+      </ListItem>
+    ))}
+  </List>
+  <Divider sx={{ background: 'rgba(255,255,255,0.15)' }} />
+</Drawer>
             <Box component="main" sx={{ flexGrow: 1 }}>
                 <DrawerHeader />
                 <Outlet />
