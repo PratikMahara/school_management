@@ -33,6 +33,7 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import PaymentIcon from '@mui/icons-material/Payment';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -126,9 +127,11 @@ export default function Student() {
         { link: "/student/examinations", component: "Examination", icon: ExplicitIcon },
         {link:"/student/notice", component:"Notice", icon: CircleNotificationsIcon},
         {link:"/student/busRoute", component:"Bus Route", icon: DirectionsBusIcon},
+        {link:"/student/fee", component:"Due Fee", icon: PaymentIcon},
         {link:"/student/syllabus", component:"Student Syllabus", icon: LibraryBooksIcon},
         {link:"/student/books", component:"Student Books", icon: LocalLibraryIcon},
         {link:"/logout", component:"Log Out", icon: LogoutIcon}
+
     ]
    
     const navigate = useNavigate();
