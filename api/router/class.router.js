@@ -5,7 +5,7 @@ const { createClass, getAllClass, getClassWithId, updateClassWithId, deleteClass
 
 
 router.post("/create",authMiddleware(['SCHOOL']), createClass);
-router.get("/fetch-all",authMiddleware(['SCHOOL','TEACHER']),getAllClass);
+router.get("/fetch-all",getAllClass);
 router.get("/fetch-single/:id",  getClassWithId);
 router.patch("/update/:id", authMiddleware(['SCHOOL']), updateClassWithId);
 router.delete("/delete/:id",authMiddleware(['SCHOOL']), deleteClassWithId);

@@ -42,41 +42,41 @@ function Navbar() {
 
           {/* Left Side: Logo + "Paramount" (desktop) or "SMS" (mobile) */}
           <Link className="nav-list" to="/" style={{ textDecoration: 'none' }}>
-  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-    <img
-      src="./images/static/school_management_system.png"
-      height="50px"
-      width="50px"
-      style={{ marginRight: '8px' }}
-      alt="School Logo"
-    />
-    <Typography
-      variant="h6"
-      sx={{
-        display: { xs: 'none', md: 'flex' },
-        fontFamily: 'monospace',
-        fontWeight: 700,
-        letterSpacing: '.2rem',
-        color: '#111827', // dark text for white background
-      }}
-    >
-      Paramount
-    </Typography>
-    <Typography
-      variant="h6"
-      noWrap
-      sx={{
-        display: { xs: 'flex', md: 'none' },
-        fontFamily: 'monospace',
-        fontWeight: 700,
-        letterSpacing: '.2rem',
-        color: '#111827', // also dark for consistency
-      }}
-    >
-      SMS
-    </Typography>
-  </Box>
-</Link>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <img
+                src="./images/static/school_management_system.png"
+                height="50px"
+                width="50px"
+                style={{ marginRight: '8px' }}
+                alt="School Logo"
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.2rem',
+                  color: '#111827', // dark text for white background
+                }}
+              >
+                Paramount
+              </Typography>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  display: { xs: 'flex', md: 'none' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.2rem',
+                  color: '#111827', // also dark for consistency
+                }}
+              >
+                SMS
+              </Typography>
+            </Box>
+          </Link>
 
 
           {/* Spacer */}
@@ -124,6 +124,13 @@ function Navbar() {
                 </Link>
               </>
             )}
+
+            <Link className="nav-list" to="/entrance" style={{ textDecoration: 'none' }}>
+              <Button sx={buttonStyle}>
+                <LoginIcon sx={{ mr: 1 }} />
+                Entrance
+              </Button>
+            </Link>
           </Box>
 
           {/* Mobile Dropdown Menu */}

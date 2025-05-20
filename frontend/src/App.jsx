@@ -36,6 +36,7 @@ import ScheduleStudent from "./student/components/schedule/ScheduleStudent";
 import NoticeSchool from "./school/components/notice/NoticeSchool";
 import NoticeTeacher from "./teacher/components/notice/Notice";
 import NoticeStudent from "./student/components/notice/NoticeStudent";
+import ResultUpload from "./teacher/components/Results/Resultupload.jsx";
 import ProtectedRoute from "./guards/ProtectedRoute";
 import { AuthContext } from "./context/AuthContext";
 import { ThemeProvider } from "@emotion/react";
@@ -48,6 +49,10 @@ import Syllabus from "./school/components/syllabus/Syllabus";
 import StudentSyllabus from "./student/components/syllabus/StudentSyllabus";
 import Books from "./school/components/books/Books";
 import StudentBooks from "./student/components/books/StudentBooks";
+import Entrance from "./client/components/entrance/entrance";
+import { Result } from "./student/components/result/result.jsx";
+import StudentFeeDue from "./student/components/fee/fee.jsx";
+import StudentLeaveApplication from "./student/components/leaveAppliction/LeaveApplication.jsx";
 
 function App() {
   const { themeDark } = useContext(AuthContext);
@@ -111,6 +116,10 @@ function App() {
               <Route path="busRoute" element={<StudentBusRoute />} />
               <Route path="syllabus" element={<StudentSyllabus />} />
               <Route path="books" element={<StudentBooks />} />
+              <Route path="fee" element={<StudentFeeDue />} />
+              <Route path="leaveapplication" element={<StudentLeaveApplication />} />
+
+
             </Route>
 
             <Route
@@ -130,6 +139,8 @@ function App() {
               <Route path="busRoute" element={<StudentBusRoute />} />
               <Route path="syllabus" element={<StudentSyllabus />} />
               <Route path="books" element={<StudentBooks />} />
+              <Route path="resultupload" element={<ResultUpload />} />
+
             </Route>
 
             <Route path="/" element={<Client />}>
@@ -139,6 +150,7 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
               <Route path="logout" element={<Logout />} />
+              <Route path="entrance" element={<Entrance />} />
             </Route>
           </Routes>
         </BrowserRouter>
