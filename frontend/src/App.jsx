@@ -52,6 +52,7 @@ import StudentBooks from "./student/components/books/StudentBooks";
 import Entrance from "./client/components/entrance/entrance";
 import { Result } from "./student/components/result/result.jsx";
 import StudentFeeDue from "./student/components/fee/fee.jsx";
+import StudentLeaveApplication from "./student/components/leaveAppliction/LeaveApplication.jsx";
 
 function App() {
   const { themeDark } = useContext(AuthContext);
@@ -116,6 +117,8 @@ function App() {
               <Route path="syllabus" element={<StudentSyllabus />} />
               <Route path="books" element={<StudentBooks />} />
               <Route path="fee" element={<StudentFeeDue />} />
+              <Route path="leaveapplication" element={<StudentLeaveApplication />} />
+
 
             </Route>
 

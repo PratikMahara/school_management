@@ -20,7 +20,10 @@ const syllabusRouter = require("./router/syllabus.router")
 const booksRouter = require("./router/books.router")
 const authMiddleware = require("./auth/auth");
 const { authCheck } = require("./controller/auth.controller");
-const {entrance} = require("./router/entrance.router")
+const {entranceRouter} = require('./router/entrance.router');
+const { getStudentByClassId } = require("./controller/student.controller");
+const resultRouter = require("./router/result.router");
+const { uploadResult } = require("./controller/result.controller");
 
 const app = express();
 
@@ -52,10 +55,17 @@ app.use('/api/examination', examRouter)
 app.use('/api/attendance', attendanceRoutes)
 app.use('/api/period',  periodRoutes)
 app.use('/api/notices', noticeRoutes)
-// app.use('/api/entrance' , entrance)
+app.use('api/result' ,resultRouter );
+// app.use('api/entrance', entranceRouter )
 
 app.get('/api/auth/check',authCheck)
 
+// app.get("/entrance" , (req, res) => {
+//     res.send("Hello entrance");
+// })
+// app.get("/api/student/by-class/:id", getStudentByClassId)
+
+// app.get("/api/result/addresult" , uploadResult);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, ()=>{

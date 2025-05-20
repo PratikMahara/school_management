@@ -12,5 +12,9 @@ module.exports = {
             console.log("ERROR in Register", e)
             res.status(500).json({ success: false, message: "Failed Creation of Class." })
         })
+    } ,
+
+    allentrance : async (req, res)  => {
+        res.send("Gets all entrance");
     }
 }
