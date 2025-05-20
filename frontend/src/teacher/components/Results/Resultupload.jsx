@@ -4,13 +4,11 @@ import {
   Button,
   Container,
   Typography,
-  TextField,
-  MenuItem,
-  InputLabel,
   FormControl,
+  InputLabel,
   Select,
+  MenuItem,
   Paper,
-  Grid,
   Snackbar,
   Alert,
   CircularProgress,
@@ -25,12 +23,20 @@ const ResultUpload = () => {
   const [selectedExam, setSelectedExam] = useState("");
   const [file, setFile] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [allClasses, setAllClasses] = useState([]);
   const [students, setStudents] = useState([]);
   const [allExam, setAllExam] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(true);
   const [loadingStudents, setLoadingStudents] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const showSnackbar = (message, severity = "success") => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
+  };
 
   // Fetch classes from the backend
   const fetchStudentClass = () => {
@@ -46,8 +52,9 @@ const ResultUpload = () => {
         setLoadingClasses(false);
       })
       .catch((e) => {
-        console.log("Error in fetching student Class", e);
+        console.error("Error in fetching student classes:", e);
         setLoadingClasses(false);
+        showSnackbar("Failed to load classes", "error");
       });
   };
 
@@ -71,9 +78,10 @@ const ResultUpload = () => {
         setLoadingStudents(false);
       })
       .catch((e) => {
-        console.log("Error fetching students:", e);
+        console.error("Error fetching students:", e);
         setStudents([]);
         setLoadingStudents(false);
+        showSnackbar("Failed to load students", "error");
       });
   };
 
@@ -84,13 +92,17 @@ const ResultUpload = () => {
       .then((resp) => {
         if (resp.data.success) {
           setAllExam(resp.data.data);
+          if (resp.data.data.length > 0) {
+            setSelectedExam(resp.data.data[0]._id);
+          }
         } else {
           setAllExam([]);
         }
       })
       .catch((e) => {
-        console.log("Error fetching examinations:", e);
+        console.error("Error fetching examinations:", e);
         setAllExam([]);
+        showSnackbar("Failed to load examinations", "error");
       });
   };
 
@@ -108,30 +120,43 @@ const ResultUpload = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedClass || !selectedStudent || !selectedExam || !file) {
-      alert("Please fill all fields and upload a file.");
+    if (!selectedClass || !selectedExam || !file) {
+      showSnackbar("Please fill all required fields and upload a file", "error");
       return;
     }
 
     // Prepare form data for file upload
     const formData = new FormData();
-    formData.append("result_class", selectedClass);
-    formData.append("studentId", selectedStudent);
-    formData.append("examtype", selectedExam);
-    formData.append("resultpdf", file);
+    formData.append("classId", selectedClass);
+    formData.append("examId", selectedExam);
+    formData.append("resultFile", file);
+
+    // Get the authentication token from localStorage
+    const token = localStorage.getItem('token');
 
     setLoading(true);
     try {
-      const response = await axios.post(`${baseUrl}/teacher/uploadresult`, formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      });
-      setOpenSnackbar(true);
-      // Reset form
-      setSelectedExam("");
-      setFile(null);
+      const response = await axios.post(
+        `${baseUrl}/teacher/uploadresult`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Authorization": token
+          }
+        }
+      );
+      
+      if (response.data.success) {
+        showSnackbar("Result uploaded successfully!");
+        // Reset form
+        setFile(null);
+      } else {
+        showSnackbar(response.data.message || "Upload failed", "error");
+      }
     } catch (error) {
       console.error("Error uploading result:", error);
-      alert("Failed to upload result. Please try again.");
+      showSnackbar(error.response?.data?.message || "Failed to upload result. Please try again.", "error");
     }
     setLoading(false);
   };
@@ -143,8 +168,8 @@ const ResultUpload = () => {
 
   return (
     <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ p: 4, mt: 4 }}>
-        <Typography variant="h5" gutterBottom>
+      <Paper elevation={3} sx={{ p: 4, mt: 4, borderRadius: "12px" }}>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "#1976d2", mb: 3 }}>
           Upload Student Result
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
@@ -203,22 +228,38 @@ const ResultUpload = () => {
               label="Exam"
               onChange={(e) => setSelectedExam(e.target.value)}
             >
-              {allExam.map((exam) => (
-                <MenuItem key={exam._id} value={exam._id}>
-                  {exam.examType}
+              {allExam.length > 0 ? (
+                allExam.map((exam) => (
+                  <MenuItem key={exam._id} value={exam._id}>
+                    {exam.examType}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem value="">
+                  <em>No exams found</em>
                 </MenuItem>
-              ))}
+              )}
             </Select>
           </FormControl>
 
-          <Box mt={2} mb={2}>
+          <Box mt={3} mb={3}>
             <Button
-              variant="contained"
+              variant="outlined"
               component="label"
               startIcon={<UploadFile />}
               fullWidth
+              sx={{
+                py: 1.5,
+                border: file ? "1px solid #4caf50" : "1px dashed #1976d2",
+                backgroundColor: file ? "rgba(76, 175, 80, 0.04)" : "transparent",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "rgba(25, 118, 210, 0.04)",
+                  border: "1px solid #1976d2"
+                }
+              }}
             >
-              Upload Result PDF
+              {file ? "Change PDF File" : "Upload Result PDF"}
               <input
                 type="file"
                 accept="application/pdf"
@@ -227,7 +268,7 @@ const ResultUpload = () => {
               />
             </Button>
             {file && (
-              <Typography variant="body2" mt={1}>
+              <Typography variant="body2" mt={1} color="success.main" pl={1}>
                 Selected File: {file.name}
               </Typography>
             )}
@@ -239,9 +280,22 @@ const ResultUpload = () => {
             color="primary"
             fullWidth
             disabled={loading}
-            startIcon={loading && <CircularProgress size={20} />}
+            sx={{ 
+              py: 1.5, 
+              mt: 2,
+              backgroundColor: "#1976d2",
+              "&:hover": { backgroundColor: "#1565c0" },
+              transition: "background-color 0.3s"
+            }}
           >
-            {loading ? "Uploading..." : "Submit Result"}
+            {loading ? (
+              <>
+                <CircularProgress size={24} sx={{ mr: 1, color: "white" }} />
+                Uploading...
+              </>
+            ) : (
+              "Submit Result"
+            )}
           </Button>
         </Box>
       </Paper>
@@ -251,8 +305,14 @@ const ResultUpload = () => {
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: "100%" }}>
-          Result uploaded successfully!
+        <Alert 
+          onClose={handleCloseSnackbar} 
+          severity={snackbarSeverity} 
+          sx={{ width: "100%" }}
+          elevation={6}
+          variant="filled"
+        >
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </Container>
