@@ -9,6 +9,8 @@ const jwtSecret = process.env.JWTSECRET;
 
 const Student = require("../model/student.model");
 const Attendance = require('../model/attendance.model');
+const Result = require('../model/result.model');
+
 const Class = require("../model/class.model");
 module.exports = {
     getStudentWithQuery: async (req, res) => {
@@ -37,14 +39,14 @@ module.exports = {
         try {
             // const schoolId = req.user.schoolId;
             console.log(req.params);
-            
+
             const classId = req.params.id;
             console.log(classId);
-            
+
             // console.log("Fetching students for class:", classId);
-            
-            const students = await Student.find({"student_class" : classId});
-            
+
+            const students = await Student.find({ "student_class": classId });
+
             return res.status(200).json({
                 success: true,
                 message: "Students fetched successfully.",
@@ -268,5 +270,84 @@ module.exports = {
             console.error("Error in isStudentLoggedIn", error);
             res.status(500).json({ success: false, message: "Server Error in Student Logged in check. Try later" })
         }
+    },
+
+    // Get results for a specific student
+    getStudentResults: async (req, res) => {
+        try {
+            const { studentId } = req.params;
+            console.log("Request Params:", req.params);
+
+            // Check if user is authenticated
+            // if (!req.user || !req.user.id) {
+            //     return res.status(401).json({
+            //         success: false,
+            //         message: 'Unauthorized: User not authenticated'
+            //     });
+            // }
+
+            // // Ensure user is accessing their own results
+            // if (req.user.id !== studentId) {
+            //     return res.status(403).json({
+            //         success: false,
+            //         message: 'Unauthorized access to results'
+            //     });
+            // }
+
+            const results = await Result.find({ student: studentId })
+                .populate('examtype', 'examType')
+                .populate('result_class', 'class_name class_num')
+                .populate('uploaded_teacher', 'name')
+                .sort({ createdAt: -1 });
+
+            res.status(200).json({
+                success: true,
+                data: results
+            });
+        } catch (error) {
+            console.error('Error fetching student results:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch results'
+            });
+        }
+    },
+
+    // Download a specific result
+    downloadResult: async (req, res) => {
+        try {
+            const { resultId } = req.params;
+            const studentId = req.user.id;
+
+            const result = await Result.findOne({
+                _id: resultId,
+                student: studentId
+            });
+
+            if (!result) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Result not found or unauthorized access'
+                });
+            }
+
+            const filePath = result.resultpdf;
+
+            if (!fs.existsSync(filePath)) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Result file not found'
+                });
+            }
+
+            res.download(filePath);
+        } catch (error) {
+            console.error('Error downloading result:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to download result'
+            });
+        }
     }
+
 }

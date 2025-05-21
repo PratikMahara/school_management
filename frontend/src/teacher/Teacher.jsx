@@ -136,6 +136,7 @@ export default function Teacher() {
         {link:"/teacher/notice", component:"Notice", icon: CircleNotificationsIcon},
         {link:"/teacher/busRoute", component:"Bus Route", icon: DirectionsBusIcon},
         {link:"/teacher/syllabus", component:"Student Syllabus", icon: LibraryBooksIcon},
+        {link:"/teacher/admitcard", component:"Admit card", icon: LibraryBooksIcon},
         {link: "/teacher/resultupload" , component:"Examination Result" , icon:AutoAwesomeMosaicIcon },
         {link:"/teacher/books", component:"Student Books", icon: LocalLibraryIcon},
         {link:"/logout", component:"Log Out", icon: LogoutIcon}

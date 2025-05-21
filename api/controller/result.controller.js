@@ -13,10 +13,12 @@ const uploadResult = async (req, res) => {
     }
 
     // Extract data from request
-    const { classId, examId } = req.body;
+    const { classId, examId , student } = req.body;
+    console.log(req.body);
+    
     const teacherId = req.user.id; // Assuming teacher ID comes from auth middleware
     
-    if (!classId || !examId) {
+    if (!classId || !examId || !student) {
       // Clean up uploaded file if validation fails
       if (req.file && req.file.path) {
         fs.unlinkSync(req.file.path);
@@ -31,6 +33,7 @@ const uploadResult = async (req, res) => {
       resultpdf: req.file.path,
       result_class: classId,
       uploaded_teacher: teacherId,
+      student : student,
       examtype: examId
     });
 
@@ -43,7 +46,8 @@ const uploadResult = async (req, res) => {
         filename: req.file.filename,
         class: classId,
         exam: examId,
-        teacher: teacherId
+        teacher: teacherId,
+        student: student,
       }
     });
 
@@ -66,6 +70,7 @@ const uploadResult = async (req, res) => {
 const getStudentResults = async (req, res) => {
   try {
     const { studentId } = req.params;
+    console.log("restul" , req.params);
     
     const results = await Result.find({ student: studentId })
       .populate('examtype', 'examType')

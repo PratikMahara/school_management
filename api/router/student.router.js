@@ -1,5 +1,5 @@
 const express = require("express");
-const { getStudentWithQuery, loginStudent, updateStudentWithId, getStudentWithId, signOut, isStudentLoggedIn, getOwnDetails, registerStudent, deleteStudentWithId, getStudentByClassId } = require("../controller/student.controller");
+const { getStudentWithQuery, loginStudent, updateStudentWithId, getStudentWithId, signOut, isStudentLoggedIn, getOwnDetails, registerStudent, deleteStudentWithId, getStudentByClassId, getStudentResults, downloadResult } = require("../controller/student.controller");
 const authMiddleware = require("../auth/auth");
 const router = express.Router();
 
@@ -13,5 +13,10 @@ router.get("/fetch-single/:id", authMiddleware(['STUDENT','SCHOOL']), getStudent
 router.delete("/delete/:id", authMiddleware(['SCHOOL']), deleteStudentWithId);
 router.get("/sign-out", signOut);
 router.get("/is-login", isStudentLoggedIn);
+
+// router.get('/results/:studentId',  getStudentResults);
+
+// Download result
+router.get('/download-result/:resultId ', downloadResult);
 
 module.exports = router;

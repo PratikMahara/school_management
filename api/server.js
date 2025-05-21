@@ -21,7 +21,7 @@ const booksRouter = require("./router/books.router")
 const authMiddleware = require("./auth/auth");
 const { authCheck } = require("./controller/auth.controller");
 const {entranceRouter} = require('./router/entrance.router');
-const { getStudentByClassId } = require("./controller/student.controller");
+const { getStudentByClassId, getStudentResults } = require("./controller/student.controller");
 const resultRouter = require("./router/result.router");
 const { uploadResult } = require("./controller/result.controller");
 
@@ -66,6 +66,8 @@ app.get('/api/auth/check',authCheck)
 // app.get("/api/student/by-class/:id", getStudentByClassId)
 
 // app.get("/api/result/addresult" , uploadResult);
+
+app.get("/api/student/results/:studentId",getStudentResults);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, ()=>{

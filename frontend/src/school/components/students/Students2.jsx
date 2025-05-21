@@ -17,7 +17,7 @@ import { baseUrl } from "../../../environment";
 import CustomizedSnackbars from "../../../basic utility components/CustomizedSnackbars";
 import { studentSchema } from "../../../yupSchema/studentSchema";
 import StudentCardAdmin from "../../utility components/student card/StudentCard";
-
+ 
 export default function Students() {
   const [studentClass, setStudentClass] = useState([]);
   const [students, setStudents] = useState([]);

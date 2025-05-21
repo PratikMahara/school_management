@@ -129,8 +129,12 @@ export default function Student() {
         {link:"/student/notice", component:"Notice", icon: CircleNotificationsIcon},
         {link:"/student/busRoute", component:"Bus Route", icon: DirectionsBusIcon},
         {link:"/student/fee", component:"Due Fee", icon: PaymentIcon},
+        { link: "/student/result", component: "Result", icon:GradingIcon },
         {link:"/student/syllabus", component:"Student Syllabus", icon: LibraryBooksIcon},
         {link:"/student/books", component:"Student Books", icon: LocalLibraryIcon},
+        {link:"/student/pastquestion", component:"Past Question", icon: LocalLibraryIcon},
+        {link:"/student/10sets", component:"10 Sets", icon: LocalLibraryIcon},
+
         {link:"/student/leaveapplication", component:"Leave Application", icon: AirlineSeatFlatIcon},
         {link:"/logout", component:"Log Out", icon: LogoutIcon}
 

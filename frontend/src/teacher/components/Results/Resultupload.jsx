@@ -130,6 +130,7 @@ const ResultUpload = () => {
     formData.append("classId", selectedClass);
     formData.append("examId", selectedExam);
     formData.append("resultFile", file);
+    formData.append("student",selectedStudent )
 
     // Get the authentication token from localStorage
     const token = localStorage.getItem('token');
