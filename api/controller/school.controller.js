@@ -86,6 +86,9 @@ module.exports = {
 
                    res.header("Authorization", token);
                    res.status(200).json({ success: true, message: "Success Login", 
+                     success: true,
+          message: "Success Login",
+          token: token,
                     user: {
                          id: resp[0]._id, 
                          owner_name:resp[0].owner_name, 
