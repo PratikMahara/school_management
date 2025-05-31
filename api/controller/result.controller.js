@@ -18,16 +18,17 @@ const uploadResult = async (req, res) => {
     
     const teacherId = req.user.id; // Assuming teacher ID comes from auth middleware
     
-    if (!classId || !examId || !student) {
-      // Clean up uploaded file if validation fails
-      if (req.file && req.file.path) {
+   if (!classId || !examId || !student) {
+    if (req.file && req.file.path) {
         fs.unlinkSync(req.file.path);
-      }
-      return res.status(400).json({
+    }
+    return res.status(400).json({
         success: false,
         message: "Class and exam information are required"
-      });
-    }
+    });
+}
+
+
 
     const newResult = new Result({
       resultpdf: req.file.path,
@@ -70,7 +71,7 @@ const uploadResult = async (req, res) => {
 const getStudentResults = async (req, res) => {
   try {
     const { studentId } = req.params;
-    console.log("restul" , req.params);
+    console.log("result" , req.params);
     
     const results = await Result.find({ student: studentId })
       .populate('examtype', 'examType')

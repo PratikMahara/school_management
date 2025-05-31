@@ -14,7 +14,7 @@ router.delete("/delete/:id", authMiddleware(['SCHOOL']), deleteStudentWithId);
 router.get("/sign-out", signOut);
 router.get("/is-login", isStudentLoggedIn);
 
-// router.get('/results/:studentId',  getStudentResults);
+router.get('/results/:studentId',  getStudentResults);
 
 // Download result
 router.get('/download-result/:resultId ', downloadResult);
