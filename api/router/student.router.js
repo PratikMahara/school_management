@@ -1,5 +1,5 @@
 const express = require("express");
-const { getStudentWithQuery, loginStudent, updateStudentWithId, getStudentWithId, signOut, isStudentLoggedIn, getOwnDetails, registerStudent, deleteStudentWithId, getStudentByClassId, getStudentResults, downloadResult } = require("../controller/student.controller");
+const { getStudentWithQuery, loginStudent, updateStudentWithId, getStudentWithId, signOut, isStudentLoggedIn, getOwnDetails, registerStudent, deleteStudentWithId, getStudentByClassId, getStudentResults, downloadResult, fileComplaint } = require("../controller/student.controller");
 const authMiddleware = require("../auth/auth");
 const router = express.Router();
 
@@ -18,5 +18,8 @@ router.get('/results/:studentId',  getStudentResults);
 
 // Download result
 router.get('/download-result/:resultId ', downloadResult);
+
+// complaints
+router.post('/complaints', authMiddleware(['STUDENT']), fileComplaint);
 
 module.exports = router;
