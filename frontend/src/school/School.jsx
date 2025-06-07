@@ -36,6 +36,7 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { CardMembership } from '@mui/icons-material';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 import createTransitions from '@mui/material/styles/createTransitions';
 
 const drawerWidth = 240;
@@ -137,6 +138,7 @@ export default function School() {
         { link: "/school/syllabus", component:"Syllabus", icon: LibraryBooksIcon },
         { link: "/school/books", component:"Books", icon: LocalLibraryIcon },
         {link:"/school/admitcard", component:"AdmitCard" , icon:CardMembership},
+        {link:"/school/complaints", component:"Complaints" , icon:ChecklistIcon},
         {link:"/school/certificate", component:"Certificate", icon:CardMembership},
         { link: "/logout", component:"Log Out", icon: LogoutIcon }
         

@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWTSECRET;
 
 const School = require("../model/school.model");
+const Complaint = require("../model/complaints.model");
 module.exports = {
 
     getAllSchools: async(req,res)=>{
@@ -198,6 +199,20 @@ module.exports = {
         } catch (error) {
             console.log("Error in isSchoolLoggedIn", error);
             res.status(500).json({success:false, message:"Server Error in School Logged in check. Try later"})
+        }
+    },
+    viewComplaints: async(req, res)=>{
+        try {
+            const complaints = await Complaint.find();
+            if(complaints.length > 0){
+                console.log("Complaints fetched successfully", complaints);
+                return res.status(200).json({success:true, message:"Complaints fetched successfully", data:complaints})
+            }else{
+                return res.json({success:false, message:"No Complaints found"})
+            }
+        } catch (error) {
+            console.error("Error in viewComplaints", error);
+            return res.status(500).json({success:false, message:"Server Error in fetching Complaints. Try later", error})
         }
     }
 }

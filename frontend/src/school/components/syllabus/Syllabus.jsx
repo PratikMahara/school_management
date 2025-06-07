@@ -137,7 +137,7 @@ const handleEditSyllabus = (syllabus) => {
         const fd = new FormData();
         fd.append("title", values.title);
         fd.append("description", values.description);
-        fd.append("class_num", values.class_num);  // 👈 watch the field name, match what server expects
+        fd.append("class_num", values.class_num);
         if (file) {
           fd.append("file", file); // 👈 file field, not fileUrl
         }
@@ -154,7 +154,7 @@ const handleEditSyllabus = (syllabus) => {
             setMessage(e.response.data.message);
             setType("error");
           });
-      } else {
+      } else {  
         if (file) {
           const fd = new FormData();
           fd.append("image", file, file.name);
