@@ -130,7 +130,9 @@ const ComplaintBox = () => {
       formData.append("complaint", complaint.trim())
 
       attachments.forEach((attachment, index) => {
-        formData.append(`media`, attachment.file)
+        if (attachments.length > 0) {
+          formData.append("media", attachments[0].file)
+        }
       })
 
       //api call

@@ -29,7 +29,7 @@ module.exports = {
             }
 
             const { title, description, class_num } = fields;
-            console.log(class_num)
+            // console.log(class_num)
             const uploadedFile = files.file?.[0];// formidable returns an array of files, even if only one file is uploaded
             if (!uploadedFile) {
                 return res.status(400).json({ success: false, message: "No file uploaded" });

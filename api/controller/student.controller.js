@@ -356,7 +356,7 @@ module.exports = {
         // Set up multer storage for complaints
         const complaintStorage = multer.diskStorage({
             destination: function (req, file, cb) {
-                const uploadPath = path.join(__dirname, '../../uploads/complaints');
+                const uploadPath = path.join(__dirname, '../../frontend/public/images/uploaded/complaints');
                 if (!fs.existsSync(uploadPath)) {
                     fs.mkdirSync(uploadPath, { recursive: true });
                 }
@@ -381,8 +381,9 @@ module.exports = {
                 const mediaFileName = req.file ? req.file.filename : null;
                 const newComplaint = new Complaint({
                     complaint,
-                    media: mediaFileName
+                    media: `images/uploaded/complaints/${mediaFileName}`,
                 });
+
                 console.log(complaint)
                 await newComplaint.save();
                 res.status(200).json({ success: true, message: "Complaint filed successfully.", data: newComplaint });
