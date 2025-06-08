@@ -11,8 +11,17 @@ const studentSchema = new mongoose.Schema({
     guardian_phone:{type:String, required:true},
     student_image:{type:String,  required:true},
     createdAt:{type:Date, default: new Date()},
-
-    password:{type:String, required:true}
+    password:{type:String, required:true},
+    roll:{type:Number, required:true},
+    admitCard: {// later on we change the admit card to be a boolean value
+    name: { type: String },//so that we can check if the admit card is issued or not without redundancy
+    class: { type: String },
+    section: { type: String },
+    roll: { type: Number },
+    exam: { type: String },
+    year: { type: Number },
+    issuedAt: { type: Date, default: Date.now }
+  }
 
 })
 

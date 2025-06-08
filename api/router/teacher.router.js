@@ -17,6 +17,7 @@ const resultController = require("../controller/result.controller");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+const { createOrUpdateAdmitCard } = require("../controller/admitCard.controller");
 
 // Configure storage for result PDFs
 const storage = multer.diskStorage({
@@ -71,5 +72,8 @@ router.get(
   authMiddleware(['TEACHER', 'SCHOOL', 'STUDENT', 'PARENT']),
   resultController.getStudentResults
 );
+
+// admit card
+router.post('/admit-card', authMiddleware(['TEACHER']), createOrUpdateAdmitCard);
 
 module.exports = router;

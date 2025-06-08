@@ -476,7 +476,7 @@ export default function Students() {
               </Grid>
 
               {/* Class & Guardian Info */}
-              <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6}>
                 <Typography variant="subtitle1" sx={{ mb: 1, color: 'text.secondary' }}>
                   Academic Information
                 </Typography>
@@ -484,21 +484,36 @@ export default function Students() {
                 <FormControl fullWidth sx={{ mb: 2 }}>
                   <InputLabel>Class</InputLabel>
                   <Select
-                    label="Class"
-                    name="student_class"
-                    value={Formik.values.student_class}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik.touched.student_class && Boolean(Formik.errors.student_class)}
-                    disabled={loading}
+                  label="Class"
+                  name="student_class"
+                  value={Formik.values.student_class}
+                  onChange={Formik.handleChange}
+                  onBlur={Formik.handleBlur}
+                  error={Formik.touched.student_class && Boolean(Formik.errors.student_class)}
+                  disabled={loading}
                   >
-                    {studentClass.map((value, i) => (
-                      <MenuItem key={i} value={value._id}>
-                        {value.class_section}
-                      </MenuItem>
-                    ))}
+                  {studentClass.map((value, i) => (
+                    <MenuItem key={i} value={value._id}>
+                    {value.class_section}
+                    </MenuItem>
+                  ))}
                   </Select>
                 </FormControl>
+
+                <TextField
+                  fullWidth
+                  label="Roll"
+                  variant="outlined"
+                  name="roll"
+                  type="number"
+                  value={Formik.values.roll}
+                  onChange={Formik.handleChange}
+                  onBlur={Formik.handleBlur}
+                  error={Formik.touched.roll && Boolean(Formik.errors.roll)}
+                  helperText={Formik.touched.roll && Formik.errors.roll}
+                  sx={{ mb: 2 }}
+                  disabled={loading}
+                />
 
                 <Typography variant="subtitle1" sx={{ mt: 3, mb: 1, color: 'text.secondary' }}>
                   Guardian Information
@@ -532,51 +547,51 @@ export default function Students() {
 
                 {!isEdit && (
                   <>
-                    <Typography variant="subtitle1" sx={{ mt: 3, mb: 1, color: 'text.secondary' }}>
-                      Account Information
-                    </Typography>
-                    <Divider sx={{ mb: 2 }} />
-                    <TextField
-                      fullWidth
-                      label="Password"
-                      variant="outlined"
-                      name="password"
-                      type="password"
-                      value={Formik.values.password}
-                      onChange={Formik.handleChange}
-                      onBlur={Formik.handleBlur}
-                      error={Formik.touched.password && Boolean(Formik.errors.password)}
-                      helperText={Formik.touched.password && Formik.errors.password}
-                      disabled={loading}
-                    />
+                  <Typography variant="subtitle1" sx={{ mt: 3, mb: 1, color: 'text.secondary' }}>
+                    Account Information
+                  </Typography>
+                  <Divider sx={{ mb: 2 }} />
+                  <TextField
+                    fullWidth
+                    label="Password"
+                    variant="outlined"
+                    name="password"
+                    type="password"
+                    value={Formik.values.password}
+                    onChange={Formik.handleChange}
+                    onBlur={Formik.handleBlur}
+                    error={Formik.touched.password && Boolean(Formik.errors.password)}
+                    helperText={Formik.touched.password && Formik.errors.password}
+                    disabled={loading}
+                  />
                   </>
                 )}
+                </Grid>
               </Grid>
-            </Grid>
 
-            <Box sx={{ 
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: 2,
-              mt: 4
-            }}>
-              {isEdit && (
+              <Box sx={{ 
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 2,
+                mt: 4
+              }}>
+                {isEdit && (
                 <Button
                   variant="outlined"
                   color="error"
                   startIcon={<CancelIcon />}
                   onClick={cancelEdit}
                   sx={{
-                    borderRadius: 1,
-                    px: 3,
-                    py: 1
+                  borderRadius: 1,
+                  px: 3,
+                  py: 1
                   }}
                   disabled={loading}
                 >
                   Cancel
                 </Button>
-              )}
-              <Button
+                )}
+                <Button
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -587,139 +602,139 @@ export default function Students() {
                   py: 1,
                   boxShadow: 'none',
                   '&:hover': {
-                    boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
                   }
                 }}
                 disabled={loading}
-              >
+                >
                 {loading ? 'Processing...' : (isEdit ? 'Update' : 'Register')} Student
-              </Button>
-            </Box>
-          </Box>
-        </Paper>
+                </Button>
+              </Box>
+              </Box>
+            </Paper>
 
         {/* Students List */}
-        {/* Students List */}
-<Typography variant="h5" sx={{ 
-  fontWeight: 600,
-  mb: 3,
-  display: 'flex',
-  alignItems: 'center',
-  gap: 1,
-  position: 'relative',
-  '&:after': {
-    content: '""',
-    position: 'absolute',
-    bottom: -8,
-    left: 0,
-    width: '60px',
-    height: '4px',
-    background: 'linear-gradient(90deg, #1976d2, #4dabf5)',
-    borderRadius: '2px'
-  }
-}}>
-  <SchoolIcon color="primary" sx={{ 
-    fontSize: '1.8rem',
-    backgroundColor: 'rgba(25, 118, 210, 0.1)',
-    p: 1,
-    borderRadius: '50%'
-  }} /> 
-  Student Directory
-</Typography>
 
-{loading && students.length === 0 ? (
-  <Box sx={{ 
-    display: 'flex', 
-    justifyContent: 'center', 
-    p: 4,
-    minHeight: '200px',
-    alignItems: 'center'
-  }}>
-    <CircularProgress size={60} thickness={4} sx={{ color: 'primary.main' }} />
-  </Box>
-) : students.length === 0 ? (
-  <Paper sx={{ 
-    p: 6,
-    textAlign: 'center',
-    borderRadius: 3,
-    background: 'linear-gradient(135deg, rgba(241,245,249,0.8), rgba(255,255,255,1))',
-    boxShadow: '0 8px 32px rgba(31, 38, 135, 0.05)',
-    border: '1px solid rgba(255, 255, 255, 0.3)',
-    backdropFilter: 'blur(4px)',
+  <Typography variant="h5" sx={{ 
+    fontWeight: 600,
+    mb: 3,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 1,
     position: 'relative',
-    overflow: 'hidden',
-    '&:before': {
+    '&:after': {
       content: '""',
       position: 'absolute',
-      top: 0,
+      bottom: -8,
       left: 0,
-      right: 0,
+      width: '60px',
       height: '4px',
-      background: 'linear-gradient(90deg, #1976d2, #4dabf5)'
+      background: 'linear-gradient(90deg, #1976d2, #4dabf5)',
+      borderRadius: '2px'
     }
   }}>
-    <Box sx={{
-      display: 'inline-flex',
-      p: 2,
-      mb: 3,
-      borderRadius: '50%',
-      backgroundColor: 'rgba(25, 118, 210, 0.1)'
+    <SchoolIcon color="primary" sx={{ 
+      fontSize: '1.8rem',
+      backgroundColor: 'rgba(25, 118, 210, 0.1)',
+      p: 1,
+      borderRadius: '50%'
+    }} /> 
+    Student Directory
+  </Typography>
+
+  {loading && students.length === 0 ? (
+    <Box sx={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      p: 4,
+      minHeight: '200px',
+      alignItems: 'center'
     }}>
-      <SchoolIcon color="primary" sx={{ fontSize: '2.5rem' }} />
+      <CircularProgress size={60} thickness={4} sx={{ color: 'primary.main' }} />
     </Box>
-    <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
-      No students found
-    </Typography>
-    <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-      Register your first student above to get started
-    </Typography>
-    <Button 
-      variant="contained" 
-      color="primary" 
-      startIcon={<PersonIcon />}
-      sx={{
-        borderRadius: 2,
-        px: 3,
-        py: 1,
-        textTransform: 'none',
-        boxShadow: '0 4px 14px rgba(25, 118, 210, 0.3)',
-        '&:hover': {
-          boxShadow: '0 6px 18px rgba(25, 118, 210, 0.4)'
-        }
-      }}
-      onClick={() => window.scrollTo(0, 0)}
-    >
-      Add New Student
-    </Button>
-  </Paper>
-) : (
-  <Grid container spacing={3}>
-    {students.map((student) => (
-      <Grid item xs={12} sm={6} md={4} lg={3} key={student._id}>
-        <Paper sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          borderRadius: 3,
-          overflow: 'hidden',
-          transition: 'all 0.3s ease',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+  ) : students.length === 0 ? (
+    <Paper sx={{ 
+      p: 6,
+      textAlign: 'center',
+      borderRadius: 3,
+      background: 'linear-gradient(135deg, rgba(241,245,249,0.8), rgba(255,255,255,1))',
+      boxShadow: '0 8px 32px rgba(31, 38, 135, 0.05)',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+      backdropFilter: 'blur(4px)',
+      position: 'relative',
+      overflow: 'hidden',
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '4px',
+        background: 'linear-gradient(90deg, #1976d2, #4dabf5)'
+      }
+    }}>
+      <Box sx={{
+        display: 'inline-flex',
+        p: 2,
+        mb: 3,
+        borderRadius: '50%',
+        backgroundColor: 'rgba(25, 118, 210, 0.1)'
+      }}>
+        <SchoolIcon color="primary" sx={{ fontSize: '2.5rem' }} />
+      </Box>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+        No students found
+      </Typography>
+      <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+        Register your first student above to get started
+      </Typography>
+      <Button 
+        variant="contained" 
+        color="primary" 
+        startIcon={<PersonIcon />}
+        sx={{
+          borderRadius: 2,
+          px: 3,
+          py: 1,
+          textTransform: 'none',
+          boxShadow: '0 4px 14px rgba(25, 118, 210, 0.3)',
           '&:hover': {
-            transform: 'translateY(-5px)',
-            boxShadow: '0 8px 30px rgba(25, 118, 210, 0.2)',
-            borderTop: '3px solid #1976d2'
+            boxShadow: '0 6px 18px rgba(25, 118, 210, 0.4)'
           }
-        }}>
-          <StudentCardAdmin
-            student={student}
-            handleDelete={handleDelete}
-            handleEdit={handleEdit}
-          />
-        </Paper>
-      </Grid>
-    ))}
-  </Grid>
-)}      </Box>
-    </>
+        }}
+        onClick={() => window.scrollTo(0, 0)}
+      >
+        Add New Student
+      </Button>
+    </Paper>
+  ) : (
+    <Grid container spacing={3}>
+      {students.map((student) => (
+        <Grid item xs={12} sm={6} md={4} lg={3} key={student._id}>
+          <Paper sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            borderRadius: 3,
+            overflow: 'hidden',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            '&:hover': {
+              transform: 'translateY(-5px)',
+              boxShadow: '0 8px 30px rgba(25, 118, 210, 0.2)',
+              borderTop: '3px solid #1976d2'
+            }
+          }}>
+            <StudentCardAdmin
+              student={student}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
+          </Paper>
+        </Grid>
+      ))}
+    </Grid>
+  )}      </Box>
+      </>
   );
 }
