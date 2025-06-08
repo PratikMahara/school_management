@@ -8,7 +8,7 @@ module.exports = {
                 const routes = await BusRoute.find({});
                 res.status(200).json({success:true, message:"Success in fetching all bus routes", data: routes})
             } catch (error) {
-                console.log("Error in getAllSchools", error);
+                console.error("Error in getAllSchools", error);
                 res.status(500).json({success:false, message:"Server Error in all fetching bus routes."})
             }
     },

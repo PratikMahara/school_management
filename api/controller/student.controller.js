@@ -12,6 +12,8 @@ const Attendance = require('../model/attendance.model');
 const Result = require('../model/result.model');
 
 const Class = require("../model/class.model");
+const Complaint = require("../model/complaints.model");
+const multer = require('multer');
 module.exports = {
     getStudentWithQuery: async (req, res) => {
         try {
@@ -348,6 +350,48 @@ module.exports = {
                 message: 'Failed to download result'
             });
         }
+    },
+
+    fileComplaint: async (req, res) => {
+        // Set up multer storage for complaints
+        const complaintStorage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                const uploadPath = path.join(__dirname, '../../frontend/public/images/uploaded/complaints');
+                if (!fs.existsSync(uploadPath)) {
+                    fs.mkdirSync(uploadPath, { recursive: true });
+                }
+                cb(null, uploadPath);
+            },
+            filename: function (req, file, cb) {
+                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+                cb(null, uniqueSuffix + '-' + file.originalname.replace(/\s+/g, '_'));
+            }
+        });
+        const upload = multer({ storage: complaintStorage }).single('media');
+
+        upload(req, res, async function (err) {
+            if (err) {
+                return res.status(400).json({ success: false, message: "Error uploading file." + err });
+            }
+            try {
+                const { complaint } = req.body;
+                if (!complaint || complaint.trim() === "") {
+                    return res.status(400).json({ success: false, message: "Complaint text is required." });
+                }
+                const mediaFileName = req.file ? req.file.filename : null;
+                const newComplaint = new Complaint({
+                    complaint,
+                    media: `images/uploaded/complaints/${mediaFileName}`,
+                });
+
+                console.log(complaint)
+                await newComplaint.save();
+                res.status(200).json({ success: true, message: "Complaint filed successfully.", data: newComplaint });
+            } catch (error) {
+                console.error("Error filing complaint:", error);
+                res.status(500).json({ success: false, message: "Failed to file complaint." });
+            }
+        });
     }
 
 }

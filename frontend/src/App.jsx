@@ -58,6 +58,8 @@ import PastQuestions from "./student/pastYearQuestion/PastYearQuestions.jsx";
 import AdmitCard from "./teacher/components/AdmitCard/AdmitCard.jsx";
 import Tensets from "./student/components/Tensets/Tensets.jsx";
 import TransferCertificate from "./school/components/certificate/certificate.jsx";
+import StudentComplaints from "./student/components/complaints/StudentComplaints.jsx";
+import Complaints from "./school/components/complaints/Complaints.jsx";
 
 function App() {
   const { themeDark } = useContext(AuthContext);
@@ -103,6 +105,7 @@ function App() {
               <Route path="syllabus" element={<Syllabus />} />
               <Route path="books" element={<Books />} />
               <Route path="certificate" element={<TransferCertificate />} />
+              <Route path="complaints" element={<Complaints />} />
 
             </Route>
 
@@ -128,7 +131,7 @@ function App() {
               <Route path="result" element={<StudentResults />} />
               <Route path="pastquestion" element={<PastQuestions />} />
               <Route path="10sets" element={<Tensets />} />
-
+              <Route path="complaints" element={<StudentComplaints />} />
 
 
 

@@ -35,6 +35,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import PaymentIcon from '@mui/icons-material/Payment';
 import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -134,6 +135,7 @@ export default function Student() {
         {link:"/student/books", component:"Student Books", icon: LocalLibraryIcon},
         {link:"/student/pastquestion", component:"Past Question", icon: LocalLibraryIcon},
         {link:"/student/10sets", component:"10 Sets", icon: LocalLibraryIcon},
+        {link:"/student/complaints", component:"Student Complaints", icon: ChecklistIcon},
 
         {link:"/student/leaveapplication", component:"Leave Application", icon: AirlineSeatFlatIcon},
         {link:"/logout", component:"Log Out", icon: LogoutIcon}
