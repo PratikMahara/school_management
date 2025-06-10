@@ -85,7 +85,7 @@ module.exports = {
                         var salt = bcrypt.genSaltSync(10);
                         var hashPassword = bcrypt.hashSync(fields.password[0], salt);
 
-                        // console.log(fields,"Fields")
+                        console.log(fields.roll_no[0])
                         const newStudent = new Student({
                             email: fields.email[0],
                             name: fields.name[0],
@@ -94,7 +94,7 @@ module.exports = {
                             guardian_phone: fields.guardian_phone[0],
                             age: fields.age[0],
                             gender: fields.gender[0],
-
+                            roll: fields.roll_no[0],
                             student_image: originalFileName,
                             password: hashPassword,
                             school: req.user.id

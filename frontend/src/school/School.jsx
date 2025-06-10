@@ -137,7 +137,7 @@ export default function School() {
         { link: "/school/busRoute", component:"BusRoute", icon: DirectionsBusIcon },
         { link: "/school/syllabus", component:"Syllabus", icon: LibraryBooksIcon },
         { link: "/school/books", component:"Books", icon: LocalLibraryIcon },
-        {link:"/school/admitcard", component:"AdmitCard" , icon:CardMembership},
+        // {link:"/school/admitcard", component:"AdmitCard" , icon:CardMembership},
         {link:"/school/complaints", component:"Complaints" , icon:ChecklistIcon},
         {link:"/school/certificate", component:"Certificate", icon:CardMembership},
         { link: "/logout", component:"Log Out", icon: LogoutIcon }

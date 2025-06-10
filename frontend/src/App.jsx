@@ -60,6 +60,7 @@ import Tensets from "./student/components/Tensets/Tensets.jsx";
 import TransferCertificate from "./school/components/certificate/certificate.jsx";
 import StudentComplaints from "./student/components/complaints/StudentComplaints.jsx";
 import Complaints from "./school/components/complaints/Complaints.jsx";
+import ViewAdmitCard from "./student/components/admitCard/ViewAdmitCard.jsx";
 
 function App() {
   const { themeDark } = useContext(AuthContext);
@@ -132,6 +133,7 @@ function App() {
               <Route path="pastquestion" element={<PastQuestions />} />
               <Route path="10sets" element={<Tensets />} />
               <Route path="complaints" element={<StudentComplaints />} />
+              <Route path="admit-card" element={<ViewAdmitCard />} />
 
 
 
