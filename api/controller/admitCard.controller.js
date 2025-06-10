@@ -16,13 +16,13 @@ module.exports = {
 
             console.log(className);
             console.log(roll);
-            const student = await Student.findOne({ name, student_class: classExists._id, roll }).select('-password');
+            const student = await Student.findOne({ student_class: classExists._id, roll }).select('-password');
             console.log(student);
             if (!student) {
                 return res.status(404).json({ message: "Student not found." });
             }
 
-            student['admit-card'] = {
+            student['admitCard'] = {
                 name,
                 class: className,
                 section,
@@ -33,7 +33,7 @@ module.exports = {
 
             await student.save();
 
-            res.status(200).json({ message: "Admit card updated successfully.", admitCard: student['admit-card'] });
+            res.status(200).json({ message: "Admit card updated successfully.", admitCard: student['admitCard'] });
         } catch (error) {
             res.status(500).json({ message: "Server error.", error: error.message });
         }
