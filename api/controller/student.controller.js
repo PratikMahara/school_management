@@ -14,6 +14,8 @@ const Result = require('../model/result.model');
 const Class = require("../model/class.model");
 const Complaint = require("../model/complaints.model");
 const multer = require('multer');
+const LeaveApplication = require("../model/leaveApplication.model");
+
 module.exports = {
     getStudentWithQuery: async (req, res) => {
         try {
@@ -392,6 +394,40 @@ module.exports = {
                 res.status(500).json({ success: false, message: "Failed to file complaint." });
             }
         });
-    }
+    },
+
+    leaveApplication: async (req, res) => {
+        try {
+            const { fromDate, toDate, reason, description } = req.body
+            const studentId = req.user.id;
+            if (!fromDate || !toDate || !reason || !description) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'All fields are required'
+                });
+            }
+            const newLeaveApplication = new LeaveApplication({
+                student: studentId,
+                fromDate,
+                toDate,
+                reason,
+                description
+            });
+
+            await newLeaveApplication.save();
+
+            res.status(200).json({
+                success: true,
+                message: 'Leave application submitted successfully',
+                data: newLeaveApplication
+            });
+        } catch (error) {
+            console.error('Error submiting leave application:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to submit leave application'
+            });
+        }
+    },
 
 }

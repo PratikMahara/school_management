@@ -25,6 +25,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { styled } from "@mui/material/styles"
+import axios from "axios"
+import { baseUrl } from "@/environment"
 
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 700,
@@ -72,19 +74,11 @@ const LeaveApplicationForm = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [submitError, setSubmitError] = useState("")
 
-  // Mock student data - in real app, this would come from authentication/context
-  const studentInfo = {
-    name: "John Doe",
-    class: "Grade 10-A",
-    rollNo: "10A-023",
-    studentId: "STU001",
-  }
-
   const reasonOptions = [
-    { value: "sick", label: "Sick Leave", color: "#f44336" },
-    { value: "personal", label: "Personal Work", color: "#2196f3" },
-    { value: "emergency", label: "Emergency", color: "#ff9800" },
-    { value: "other", label: "Other", color: "#9c27b0" },
+    { value: "Sick", label: "Sick Leave", color: "#f44336" },
+    { value: "Personal", label: "Personal Work", color: "#2196f3" },
+    { value: "Emergency", label: "Emergency", color: "#ff9800" },
+    { value: "Other", label: "Other", color: "#9c27b0" },
   ]
 
   const handleInputChange = (field, value) => {
@@ -166,22 +160,13 @@ const LeaveApplicationForm = () => {
     setSubmitError("")
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      // In real implementation, you would make an API call like:
-      // const response = await fetch('/api/leave-applications', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     studentId: studentInfo.studentId,
-      //     fromDate: formData.fromDate,
-      //     toDate: formData.toDate,
-      //     reason: formData.reason,
-      //     description: formData.description,
-      //     leaveDays: calculateLeaveDays()
-      //   })
-      // })
+    const postLeaveApplication = async ()=>{
+        const response = await axios.post(`${baseUrl}/student/leave-application`, formData)
+        console.log("leave application response:", response.data)
+        
+    }
+    postLeaveApplication()
 
       setSubmitSuccess(true)
 
@@ -201,11 +186,6 @@ const LeaveApplicationForm = () => {
     } finally {
       setIsSubmitting(false)
     }
-  }
-
-  const getReasonColor = (reason) => {
-    const option = reasonOptions.find((opt) => opt.value === reason)
-    return option ? option.color : "#666"
   }
 
   if (submitSuccess) {
@@ -270,71 +250,6 @@ const LeaveApplicationForm = () => {
           />
 
           <CardContent sx={{ p: 4 }}>
-            {/* Student Information */}
-            <Paper
-              elevation={2}
-              sx={{
-                p: 3,
-                mb: 4,
-                borderRadius: 3,
-                background: "rgba(255, 255, 255, 0.9)",
-                border: "1px solid rgba(102, 126, 234, 0.2)",
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  mb: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  color: "primary.main",
-                  fontWeight: "bold",
-                }}
-              >
-                <Person />
-                Student Information
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Name:
-                    </Typography>
-                    <Typography variant="body1" fontWeight="medium">
-                      {studentInfo.name}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Class:
-                    </Typography>
-                    <Typography variant="body1" fontWeight="medium">
-                      {studentInfo.class}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Roll No:
-                    </Typography>
-                    <Typography variant="body1" fontWeight="medium">
-                      {studentInfo.rollNo}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Student ID:
-                    </Typography>
-                    <Typography variant="body1" fontWeight="medium">
-                      {studentInfo.studentId}
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Paper>
-
             {/* Error Alert */}
             {submitError && (
               <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
