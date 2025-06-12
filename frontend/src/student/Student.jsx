@@ -139,7 +139,7 @@ export default function Student() {
         {link:"/student/complaints", component:"Student Complaints", icon: ChecklistIcon},
         {link:"/student/admit-card", component:"Admit Card", icon: CreditCardIcon},
 
-        {link:"/student/leaveapplication", component:"Leave Application", icon: AirlineSeatFlatIcon},
+        {link:"/student/leave-application", component:"Leave Application", icon: AirlineSeatFlatIcon},
         {link:"/logout", component:"Log Out", icon: LogoutIcon}
 
     ]

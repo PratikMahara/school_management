@@ -52,7 +52,7 @@ import StudentBooks from "./student/components/books/StudentBooks";
 import Entrance from "./client/components/entrance/entrance";
 // import { Result } from "./student/components/result/result.jsx";
 import StudentFeeDue from "./student/components/fee/fee.jsx";
-import StudentLeaveApplication from "./student/components/leaveAppliction/LeaveApplication.jsx";
+import LeaveApplication from "./student/components/leave-application/LeaveApplication.jsx";
 import StudentResults from "./student/components/result/StudentResult.jsx";
 import PastQuestions from "./student/pastYearQuestion/PastYearQuestions.jsx";
 import AdmitCard from "./teacher/components/AdmitCard/AdmitCard.jsx";
@@ -128,7 +128,7 @@ function App() {
               <Route path="syllabus" element={<StudentSyllabus />} />
               <Route path="books" element={<StudentBooks />} />
               <Route path="fee" element={<StudentFeeDue />} />
-              <Route path="leaveapplication" element={<StudentLeaveApplication />} />
+              <Route path="leave-application" element={<LeaveApplication />} />
               <Route path="result" element={<StudentResults />} />
               <Route path="pastquestion" element={<PastQuestions />} />
               <Route path="10sets" element={<Tensets />} />
