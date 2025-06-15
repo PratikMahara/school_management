@@ -7,7 +7,6 @@ module.exports = {
               subject:req.body.subject,
               examType:req.body.exam_type,
               class:req.body.class_id,
-              school:req.user.id
           })
           newExamination.save().then(resp=>{
               res.status(200).send({success:true,  message:"Exam assigned Successfully."})
@@ -19,8 +18,7 @@ module.exports = {
     },
     getExaminationByClass: async(req, res)=>{
         try {
-            const schoolId = req.user.schoolId;
-            const examination = await Examination.find({class:req.params.classId,school:schoolId}).populate("subject");
+            const examination = await Examination.find({class:req.params.classId}).populate("subject");
             res.status(200).json({success:true, message:"Success in fetching User Applications.", data:examination})
         } catch (error) {
             res.status(500).send({success:false, message:"Failure  in fetching user applications, try later."})

@@ -18,6 +18,7 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const { createOrUpdateAdmitCard } = require("../controller/admitCard.controller");
+const { viewLeaveApplications } = require("../controller/leaveApplication.controller");
 
 // Configure storage for result PDFs
 const storage = multer.diskStorage({
@@ -75,5 +76,10 @@ router.get(
 
 // admit card
 router.post('/admit-card', authMiddleware(['TEACHER']), createOrUpdateAdmitCard);
+
+//leave application
+router.get('/leave-application', authMiddleware(['TEACHER']), viewLeaveApplications)
+
+
 
 module.exports = router;

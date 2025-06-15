@@ -58,9 +58,8 @@ exports.createPeriod = async (req, res) => {
 // Controller to get periods for a specific teacher
 exports.getTeacherPeriods = async (req, res) => {
   try {
-    const schoolId = req.user.schoolId;
     const { teacherId } = req.params;
-    const periods = await Period.find({ teacher: teacherId,school:schoolId }).populate('class').populate('subject');
+    const periods = await Period.find({ teacher: teacherId}).populate('class').populate('subject');
     res.status(200).json({ periods });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching periods', error });
@@ -82,8 +81,7 @@ exports.getClassPeriods = async (req, res) => {
     
     try {
       const { classId } = req.params;
-      const schoolId = req.user.schoolId;
-      const periods = await Period.find({class:classId,school:schoolId}).populate('subject').populate('teacher');
+      const periods = await Period.find({class:classId}).populate('subject').populate('teacher');
       console.log(classId)
       res.status(200).json({ periods });
     } catch (error) {

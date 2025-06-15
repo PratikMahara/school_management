@@ -52,7 +52,7 @@ import StudentBooks from "./student/components/books/StudentBooks";
 import Entrance from "./client/components/entrance/entrance";
 // import { Result } from "./student/components/result/result.jsx";
 import StudentFeeDue from "./student/components/fee/fee.jsx";
-import LeaveApplication from "./student/components/leave-application/LeaveApplication.jsx";
+import ViewLeaveApplications from "./teacher/components/leave-applications/ViewLeaveApplications.jsx";
 import StudentResults from "./student/components/result/StudentResult.jsx";
 import PastQuestions from "./student/pastYearQuestion/PastYearQuestions.jsx";
 import AdmitCard from "./teacher/components/AdmitCard/AdmitCard.jsx";
@@ -61,6 +61,7 @@ import TransferCertificate from "./school/components/certificate/certificate.jsx
 import StudentComplaints from "./student/components/complaints/StudentComplaints.jsx";
 import Complaints from "./school/components/complaints/Complaints.jsx";
 import ViewAdmitCard from "./student/components/admitCard/ViewAdmitCard.jsx";
+import LeaveApplication from "./student/components/leave-application/LeaveApplication.jsx"
 
 function App() {
   const { themeDark } = useContext(AuthContext);
@@ -128,13 +129,12 @@ function App() {
               <Route path="syllabus" element={<StudentSyllabus />} />
               <Route path="books" element={<StudentBooks />} />
               <Route path="fee" element={<StudentFeeDue />} />
-              <Route path="leave-application" element={<LeaveApplication />} />
               <Route path="result" element={<StudentResults />} />
               <Route path="pastquestion" element={<PastQuestions />} />
               <Route path="10sets" element={<Tensets />} />
               <Route path="complaints" element={<StudentComplaints />} />
               <Route path="admit-card" element={<ViewAdmitCard />} />
-
+              <Route path="leave-application" element={<LeaveApplication />} />
 
 
             </Route>
@@ -158,6 +158,7 @@ function App() {
               <Route path="books" element={<StudentBooks />} />
               <Route path="resultupload" element={<ResultUpload />} />
               <Route path="admitcard" element={<AdmitCard />} />
+              <Route path="leave-application" element={<ViewLeaveApplications />} />
 
             </Route>
 

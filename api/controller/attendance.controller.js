@@ -5,9 +5,8 @@ module.exports = {
   // Mark new attendance record
   markAttendance: async (req, res) => {
     const { studentId, date, status, classId } = req.body;
-    const schoolId = req.user.schoolId;
     try {
-      const attendance = new Attendance({ student: studentId, date, status, class: classId, school: schoolId });
+      const attendance = new Attendance({ student: studentId, date, status, class: classId});
       await attendance.save();
       res.status(201).json(attendance);
     } catch (err) {

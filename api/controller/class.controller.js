@@ -18,10 +18,9 @@ module.exports = {
 
     },
     createClass: (req, res) => {
-       const schoolId = req.user.id;
-       const newClass = new Class({...req.body,school:schoolId});
+       const newClass = new Class({...req.body});
        newClass.save().then(savedData => {
-           console.log("Date saved", savedData);
+        //    console.log("Date saved", savedData);
            res.status(200).json({ success: true, data: savedData, message:"Class is Created Successfully." })
        }).catch(e => {
            console.log("ERROR in Register", e)
@@ -30,9 +29,8 @@ module.exports = {
 
  },
     getClassWithId: async(req, res)=>{
-        console.log("ID CLASS", req.params.id)
         const id = req.params.id;
-        Class.findById(id).populate("asignSubTeach.subject").populate("asignSubTeach.teacher").populate("attendee").then(resp=>{
+        Class.findById(id).populate("class_teacher").populate("class_num").populate("class_section").then(resp=>{
             if(resp){
                 res.status(200).json({success:true, data:resp})
             }else {
@@ -63,15 +61,14 @@ module.exports = {
        
         try {
             let id = req.params.id;
-            const schoolId = req.user.schoolId;
-            const classStudentCount =(await Student.find({student_class:id,school:schoolId})).length;
+            const classStudentCount =(await Student.find({student_class:id})).length;
             console.log("Class Student Count", classStudentCount)
-            const classExamCount =(await Exam.find({class:id,school:schoolId})).length;
+            const classExamCount =(await Exam.find({class:id})).length;
             console.log("Class Exam Count", classExamCount)
-            const classPeriodCount =(await Period.find({class:id,school:schoolId})).length;
+            const classPeriodCount =(await Period.find({class:id})).length;
             console.log("Class Period Count", classPeriodCount)
             if((classStudentCount===0) && (classExamCount===0) && (classPeriodCount===0)){
-                await Class.findOneAndDelete({_id:id,school:schoolId});
+                await Class.findOneAndDelete({_id:id});
                 const classAfterDelete = await Class.findOne({_id:id});
                 res.status(200).json({success:true, message:"Class Deleted.", data:classAfterDelete})
             }else{
@@ -88,8 +85,7 @@ module.exports = {
     createSubTeacher:async(req, res)=>{
         try {
             let id = req.params.id;
-            const schoolId = req.user.schoolId;
-            const classDetails =await Class.findOne({_id:id,school:schoolId});
+            const classDetails =await Class.findOne({_id:id});
             let asignSubTeach = classDetails.asignSubTeach;
             console.log(asignSubTeach)
              asignSubTeach.push({...req.body})

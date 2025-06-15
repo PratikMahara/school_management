@@ -22,6 +22,7 @@ export default function TeacherDetails() {
     axios
       .get(`${baseUrl}/teacher/fetch-own`)
       .then((resp) => {
+        console.log("Teacher Details from Teacher Details page", resp);
         setTeacher(resp.data.data);
         console.log("Single Teacher Details from Teacher Details page", resp);
       })

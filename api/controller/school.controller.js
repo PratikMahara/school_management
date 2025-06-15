@@ -11,16 +11,16 @@ const School = require("../model/school.model");
 const Complaint = require("../model/complaints.model");
 module.exports = {
 
-    getAllSchools: async(req,res)=>{
-         try {
-            const schools= await School.find().select(['-_id','-password','-email','-owner_name','-createdAt']);
-            res.status(200).json({success:true, message:"Success in fetching all  Schools", data:schools})
-         } catch (error) {
-            console.log("Error in getAllSchools", error);
-            res.status(500).json({success:false, message:"Server Error in Getting All Schools. Try later"})
-        }
+    // getAllSchools: async(req,res)=>{
+    //      try {
+    //         const schools= await School.find().select(['-_id','-password','-email','-owner_name','-createdAt']);
+    //         res.status(200).json({success:true, message:"Success in fetching all  Schools", data:schools})
+    //      } catch (error) {
+    //         console.log("Error in getAllSchools", error);
+    //         res.status(500).json({success:false, message:"Server Error in Getting All Schools. Try later"})
+    //     }
 
-    },
+    // },
     registerSchool: async (req, res) => {
         const form = new formidable.IncomingForm();
 

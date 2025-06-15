@@ -20,9 +20,6 @@ module.exports = {
     getStudentWithQuery: async (req, res) => {
         try {
             const filterQuery = {};
-            const schoolId = req.user.schoolId;
-            // console.log(schoolId,"schoolId")
-            filterQuery['school'] = schoolId;
             if (req.query.hasOwnProperty('search')) {
                 filterQuery['name'] = { $regex: req.query.search, $options: 'i' }
             }
@@ -41,13 +38,7 @@ module.exports = {
 
     getStudentByClassId: async (req, res) => {
         try {
-            // const schoolId = req.user.schoolId;
-            console.log(req.params);
-
             const classId = req.params.id;
-            console.log(classId);
-
-            // console.log("Fetching students for class:", classId);
 
             const students = await Student.find({ "student_class": classId });
 
@@ -73,6 +64,7 @@ module.exports = {
                 if (resp.length > 0) {
                     res.status(500).json({ success: false, message: "Email Already Exist!" })
                 } else {
+                    console.log("Fields", fields);
 
                     const photo = files.image[0];
                     let oldPath = photo.filepath;
@@ -87,7 +79,7 @@ module.exports = {
                         var salt = bcrypt.genSaltSync(10);
                         var hashPassword = bcrypt.hashSync(fields.password[0], salt);
 
-                        console.log(fields.roll_no[0])
+                        console.log(fields.roll[0])
                         const newStudent = new Student({
                             email: fields.email[0],
                             name: fields.name[0],
@@ -96,10 +88,9 @@ module.exports = {
                             guardian_phone: fields.guardian_phone[0],
                             age: fields.age[0],
                             gender: fields.gender[0],
-                            roll: fields.roll_no[0],
+                            roll: fields.roll[0],
                             student_image: originalFileName,
                             password: hashPassword,
-                            school: req.user.id
 
                         })
 
@@ -123,7 +114,6 @@ module.exports = {
                     const token = jwt.sign(
                         {
                             id: resp[0]._id,
-                            schoolId: resp[0].school,
                             email: resp[0].email,
                             image_url: resp[0].image_url,
                             name: resp[0].name,
@@ -152,8 +142,7 @@ module.exports = {
     },
     getStudentWithId: async (req, res) => {
         const id = req.params.id;
-        const schoolId = req.user.schoolId;
-        Student.findOne({ _id: id, school: schoolId }).populate("student_class").then(resp => {
+        Student.findOne({ _id: id}).populate("student_class").then(resp => {
             if (resp) {
                 // console.log("data",resp)
                 res.status(200).json({ success: true, data: resp })
@@ -167,8 +156,7 @@ module.exports = {
     },
     getOwnDetails: async (req, res) => {
         const id = req.user.id;
-        const schoolId = req.user.schoolId;
-        Student.findOne({ _id: id, school: schoolId }).populate("student_class").then(resp => {
+        Student.findOne({ _id: id }).populate("student_class").then(resp => {
             if (resp) {
                 // console.log("data",resp)
                 res.status(200).json({ success: true, data: resp })
@@ -235,9 +223,8 @@ module.exports = {
     deleteStudentWithId: async (req, res) => {
         try {
             let id = req.params.id;
-            const schoolId = req.user.schoolId;
-            await Attendance.deleteMany({ school: schoolId, student: id })
-            await Student.findOneAndDelete({ _id: id, school: schoolId, });
+            await Attendance.deleteMany({ student: id })
+            await Student.findOneAndDelete({ _id: id});
             const studentAfterDelete = await Student.findOne({ _id: id });
             res.status(200).json({ success: true, message: "Student  deleted", data: studentAfterDelete })
         } catch (error) {
