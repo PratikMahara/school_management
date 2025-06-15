@@ -1,5 +1,5 @@
 const express = require("express");
-const { getStudentWithQuery, loginStudent, updateStudentWithId, getStudentWithId, signOut, isStudentLoggedIn, getOwnDetails, registerStudent, deleteStudentWithId, getStudentByClassId, getStudentResults, downloadResult, fileComplaint } = require("../controller/student.controller");
+const { getStudentWithQuery, loginStudent, updateStudentWithId, getStudentWithId, signOut, isStudentLoggedIn, leaveApplication, getOwnDetails, registerStudent, deleteStudentWithId, getStudentByClassId, getStudentResults, downloadResult, fileComplaint } = require("../controller/student.controller");
 const authMiddleware = require("../auth/auth");
 const { viewComplaints } = require("../controller/school.controller");
 const { createAdmitCard } = require("../controller/admitCard.controller");
@@ -27,6 +27,9 @@ router.get('/complaints', authMiddleware(['SCHOOL']), viewComplaints);
 
 // download admit card
 router.get('/admit-card/download', authMiddleware(['STUDENT']), createAdmitCard);
+
+// leave-application
+router.post('/leave-application', authMiddleware(['STUDENT']), leaveApplication);
 
 
 module.exports = router;

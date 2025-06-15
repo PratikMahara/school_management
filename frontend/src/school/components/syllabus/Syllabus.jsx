@@ -106,7 +106,7 @@ const handleEditSyllabus = (syllabus) => {
         setSyllabus(resp.data.data);
       })
       .catch((e) => {
-        console.log("Error fetching syllabus", e);
+        console.error("Error fetching syllabus", e);
       });
   }
 

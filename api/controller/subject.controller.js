@@ -16,21 +16,19 @@ module.exports = {
 
     },
     createSubject: (req, res) => {
-                        const schoolId = req.user.schoolId;
-                        const newSubject = new Subject({...req.body, school:schoolId});
-                        newSubject.save().then(savedData => {
-                            console.log("Date saved", savedData);
-                            res.status(200).json({ success: true, data: savedData, message:"Subject is Created Successfully." })
-                        }).catch(e => {
-                            console.log("ERRORO in Register", e)
-                            res.status(500).json({ success: false, message: "Failed Creation of Subject." })
-                        })
+        const newSubject = new Subject({...req.body});
+        newSubject.save().then(savedData => {
+            console.log("Date saved", savedData);
+            res.status(200).json({ success: true, data: savedData, message:"Subject is Created Successfully." })
+        }).catch(e => {
+            console.log("ERRORO in Register", e)
+            res.status(500).json({ success: false, message: "Failed Creation of Subject." })
+        })
 
     },
     getSubjectWithId: async(req, res)=>{
         const id = req.params.id;
-        const schoolId = req.user.schoolId;
-        Subject.findOne({_id:id, school:schoolId}).populate("student_class").then(resp=>{
+        Subject.findOne({_id:id}).populate("student_class").then(resp=>{
             if(resp){
                 res.status(200).json({success:true, data:resp})
             }else {
@@ -60,12 +58,11 @@ module.exports = {
     deleteSubjectWithId: async(req, res)=>{
        
         try {
-            const schoolId = req.user.schoolId;
             let id = req.params.id;
-            const subExamCount = (await Exam.find({subject:id,school:schoolId})).length;
-            const subPeriodCount = (await Period.find({subject:id,school:schoolId})).length;
+            const subExamCount = (await Exam.find({subject:id})).length;
+            const subPeriodCount = (await Period.find({subject:id})).length;
             if((subExamCount===0) && (subPeriodCount===0)){
-                await Subject.findOneAndDelete({_id:id,school:schoolId});
+                await Subject.findOneAndDelete({_id:id});
                 const SubjectAfterDelete = await Subject.findOne({_id:id});
                 res.status(200).json({success:true, message:"Subject Deleted.", data:SubjectAfterDelete})
             }else{

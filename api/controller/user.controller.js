@@ -22,7 +22,6 @@ module.exports = {
     },
     register: async (req, res) => {
         const form = new formidable.IncomingForm();
-        const schoolId = req.user.schoolId;
         form.parse(req, (err, fields, files) => {
             User.find({ email: fields.email }).then(resp => {
                 if (resp.length > 0) {

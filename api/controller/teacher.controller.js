@@ -13,15 +13,11 @@ module.exports = {
     getTeacherWithQuery: async(req, res)=>{
         try {
             const filterQuery = {};
-            const schoolId = req.user.schoolId;
-            filterQuery['school'] = schoolId;
             if(req.query.hasOwnProperty('search')){
                 filterQuery['name'] = {$regex: req.query.search, $options:'i'}
             }
-            
-          
     
-            const filteredTeachers = await Teacher.find(filterQuery);
+            const filteredTeachers = await Teacher.find(filterQuery).select('-password');
             res.status(200).json({success:true, data:filteredTeachers})
         } catch (error) {
             console.log("Error in fetching Teacher with query", error);
@@ -33,7 +29,6 @@ module.exports = {
 
     registerTeacher: async (req, res) => {
         const form = new formidable.IncomingForm();
-        const schoolId = req.user.schoolId;
         form.parse(req, (err, fields, files) => {
             Teacher.find({ email: fields.email[0] }).then(resp => {
                 if (resp.length > 0) {
@@ -61,9 +56,7 @@ module.exports = {
                             gender: fields.gender[0],
 
                             teacher_image: originalFileName,
-                            password: hashPassword,
-                            school:schoolId
-                         
+                            password: hashPassword,                         
                         })
 
                         newTeacher.save().then(savedData => {
@@ -93,7 +86,6 @@ module.exports = {
                     const token = jwt.sign(
                         {
                             id: resp[0]._id,
-                            schoolId:resp[0].school,
                             name: resp[0].name,
                             image_url: resp[0].teacher_image,
                             role: 'TEACHER'
@@ -113,7 +105,7 @@ module.exports = {
     },
     getTeacherOwnDetails: async(req, res)=>{
         const id = req.user.id;
-        Teacher.findOne({_id:id, school:req.user.schoolId}).then(resp=>{
+        Teacher.findOne({_id:id}).then(resp=>{
             if(resp){
                 res.status(200).json({success:true, data:resp})
             }else {
