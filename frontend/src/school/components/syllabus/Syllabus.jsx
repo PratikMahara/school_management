@@ -18,7 +18,7 @@ import { AuthContext } from "@/context/AuthContext";
 import { useEffect } from "react";
 import { DirectionsBusFilled } from "@mui/icons-material";
 import * as Yup from "yup";
-import SyllabusCard from "@/components/syllabus card/SyllabusCard";
+import SyllabusCard from "@/components/syllabus-card/SyllabusCard";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -35,8 +35,6 @@ const validationSchema = Yup.object().shape({
     }),
   class_num: Yup.number().required("Class number is required"),
 });
-
-
 
 export default function Syllabus() {
   const [syllabus, setSyllabus] = useState([]);

@@ -62,6 +62,7 @@ import StudentComplaints from "./student/components/complaints/StudentComplaints
 import Complaints from "./school/components/complaints/Complaints.jsx";
 import ViewAdmitCard from "./student/components/admitCard/ViewAdmitCard.jsx";
 import LeaveApplication from "./student/components/leave-application/LeaveApplication.jsx"
+import Calendar from "./school/components/calendar/Calendar.jsx";
 
 function App() {
   const { themeDark } = useContext(AuthContext);
@@ -108,6 +109,7 @@ function App() {
               <Route path="books" element={<Books />} />
               <Route path="certificate" element={<TransferCertificate />} />
               <Route path="complaints" element={<Complaints />} />
+              <Route path="calendar" element={<Calendar />} />
 
             </Route>
 
