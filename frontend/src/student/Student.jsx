@@ -138,8 +138,8 @@ export default function Student() {
         {link:"/student/10sets", component:"10 Sets", icon: LocalLibraryIcon},
         {link:"/student/complaints", component:"Student Complaints", icon: ChecklistIcon},
         {link:"/student/admit-card", component:"Admit Card", icon: CreditCardIcon},
-
         {link:"/student/leave-application", component:"Leave Application", icon: AirlineSeatFlatIcon},
+        {link:"/student/calendar", component:"Calendar", icon: CalendarMonthIcon},
         {link:"/logout", component:"Log Out", icon: LogoutIcon}
 
     ]

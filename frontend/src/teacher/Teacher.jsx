@@ -133,6 +133,7 @@ export default function Teacher() {
         {link: "/teacher/resultupload" , component:"Examination Result" , icon:AutoAwesomeMosaicIcon },
         {link:"/teacher/books", component:"Student Books", icon: LocalLibraryIcon},
         {link:"/teacher/leave-application", component:"Leave Application", icon: LocalLibraryIcon},
+        {link:"/teacher/calendar", component:"Calendar", icon: CalendarMonthIcon},
         {link:"/logout", component:"Log Out", icon: LogoutIcon}
     ]
     const navigate = useNavigate();

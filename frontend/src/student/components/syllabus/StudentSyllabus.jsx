@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import { AuthContext } from "@/context/AuthContext";
 import axios from "axios";
 import { baseUrl } from "../../../environment";
-import SyllabusCard from "@/components/syllabus card/SyllabusCard";
+import SyllabusCard from "@/components/syllabus-card/SyllabusCard";
 
 const StudentSyllabus = () => {
   const [syllabus, setSyllabus] = useState([]);

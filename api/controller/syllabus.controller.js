@@ -9,7 +9,7 @@ module.exports = {
     getAllSyllabus: async (req, res) => {
         try {
             const syllabus = await Syllabus.find({}).populate("class");
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Fetched syllabus successfully",
                 data: syllabus,

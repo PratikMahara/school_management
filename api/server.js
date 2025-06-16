@@ -18,6 +18,8 @@ const noticeRoutes = require("./router/notice.router");
 const busRoute = require("./router/busRoute.router")
 const syllabusRouter = require("./router/syllabus.router")
 const booksRouter = require("./router/books.router")
+// const calendarRouter = require("./router/calendar.router")
+const calendarRouter = require("./router/calendar.router.js")
 const authMiddleware = require("./auth/auth");
 const { authCheck } = require("./controller/auth.controller");
 const {entranceRouter} = require('./router/entrance.router');
@@ -55,17 +57,10 @@ app.use('/api/examination', examRouter)
 app.use('/api/attendance', attendanceRoutes)
 app.use('/api/period',  periodRoutes)
 app.use('/api/notices', noticeRoutes)
-app.use('api/result' ,resultRouter );
-// app.use('api/entrance', entranceRouter )
+app.use('/api/result' , resultRouter);
+app.use('/api/calendar' , calendarRouter);
 
 app.get('/api/auth/check',authCheck)
-
-// app.get("/entrance" , (req, res) => {
-//     res.send("Hello entrance");
-// })
-// app.get("/api/student/by-class/:id", getStudentByClassId)
-
-// app.get("/api/result/addresult" , uploadResult);
 
 app.get("/api/student/results/:studentId",getStudentResults);
 
